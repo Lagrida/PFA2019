@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Demande de stages</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/solid.css" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/fontawesome.css" />
+<link rel="stylesheet" th:href="@{/styles/default.css}" />
+ <script th:src="@{/scripts/jquery-3.3.1.min.js}"></script>
+ <script th:src="@{/scripts/confirmations.js}"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+	$(".msgsucces").animate({width: '96%'}, "slow");
+	$(".inputError").click(function(){
+		$(this).removeClass("inputError");
+	});
+    $("#newUser").click(function(){
+        $("#userForm").fadeToggle(500);
+    });
+});
+    function displayBlock(id){
+        $(document).ready(function(){
+        		$("#"+id).slideToggle(500);
+        	});
+        }
+</script>
+	<div class="containner">
+		<!-- Header -->
+		<div th:replace="header::header"></div>
+		<!-- Adminstration Body -->
+		<!-- Body -->
+		<div class="bodyMain" style="max-width: 820px; margin-top: 25px; float: left; margin-left: 50px">
+			<h1 class="headH1"><i class="fas fa-users" style="color:#5F9EA0"></i> Configuration des Responsables</h1>
+			<div style="padding: 10px; margin: 0 auto; margin-top: 20px">
+				<div class="displayNone" th:text="${msgSucces}" th:classappend="${msgSuccesClass}"></div>
+				<a href="javascript:void(0);" id="newUser"><img th:src="@{/images/arrow_right.gif}" /> Ajouter un Responsable</a>
+				<div class="textform displayNone" style="padding: 15px" id="userForm" th:classappend="${displayBlockClass}">
+					<form th:action="@{users?type=insert}" method="post">
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Username:</span><br />
+							<input type="text" class="inputext3" th:value="${submit} ? '' : ${user.username}" name="username" th:classappend="${userErrors.contains('username')} ? ${inputError} : ''" />
+						</label><br /><span class="msgError" th:errors="${user.username}"></span><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">mot de passe:</span><br />
+							<input type="text" class="inputext3" th:value="${submit} ? '' : ${user.password}" name="password" th:classappend="${userErrors.contains('password')} ? ${inputError} : ''" />
+						</label><br /><span class="msgError" th:errors="${user.password}"></span><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Prenom:</span><br />
+							<input type="text" class="inputext3" th:value="${submit} ? '' : ${user.prenom}" name="prenom" />
+						</label><br /><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Nom:</span><br />
+							<input type="text" class="inputext3" th:value="${submit} ? '' : ${user.nom}" name="nom" />
+						</label><br /><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Description:</span><br />
+							<textarea class="inputext3" style="width: 300px; height:100px" th:text="${submit} ? '' : ${user.description}" name="description">
+							</textarea>
+						</label><br /><span class="msgError" th:errors="${user.description}"></span><br />
+						<input type="submit" value="Envoyer les informations" class="mybutton" />
+					</form>
+				</div><br />
+				<table class="tables" style="padding: 0px; border-width: 1px; border-spacing: 0px; width: 100%; text-align:center">
+					<tr style="background: #C3C3C3">
+						<th>Username</th>
+						<th>Prenom</th>
+						<th>Nom</th>
+						<th>Description</th>
+						<th style="width: 180px">Opérations</th>
+					</tr>
+					<th:block th:each="m, rowStat:${myList}">
+						<tr th:style="${rowStat.even} ? 'background: #F0F0F0;' : 'background: #ffffff;'">
+							<td><a th:href="@{'/Responsable/'+${m.id}}" th:text="${m.username}" target="_blank"></a></td>
+							<td th:text="${m.prenom}"></td>
+							<td th:text="${m.nom}"></td>
+							<td th:text="${m.description}" style="font-style: italic"></td>
+							<td>
+								<button th:onclick="'displayBlock('+${m.id}+');'" class="mybutton" style="background:#2E8B57"><i class="fas fa-edit"></i> edit</button> 
+								<button th:onclick="'deleteUser('+${m.id}+');'" class="mybutton" style="background:#B22222"><i class="fas fa-trash-alt"></i> supprimer</button> 
+							</td>
+						</tr>
+						<tr>
+							<td colSpan="5" style="text-align: left; padding: 0px; border-bottom: 0px">
+								<div class="textform displayNone" th:id="${m.id}">
+									<form th:action="@{users?type=modify}" method="post">
+									<input type="hidden" th:value="${m.id}" name="id" />
+									<input type="hidden" th:value="${m.password}" name="password" />
+									<label>
+										<span class="smalltitle" style="font-size: 14px">Username:</span><br />
+										<input type="text" class="inputext3" th:value="${m.username}" name="username" />
+									</label><br /><br />
+									<label>
+										<span class="smalltitle" style="font-size: 14px">mot de passe:</span><br />
+										<input type="text" class="inputext3" name="insertedPassword" /> <span style="font-size: 12px; color: gray">* Lessez vide pour ne pas changer le mot de passe</span>
+									</label><br /><br />
+									<label>
+										<span class="smalltitle" style="font-size: 14px">Prenom:</span><br />
+										<input type="text" class="inputext3" th:value="${m.prenom}" name="prenom" />
+									</label><br /><br />
+									<label>
+										<span class="smalltitle" style="font-size: 14px">Nom:</span><br />
+										<input type="text" class="inputext3" th:value="${m.nom}" name="nom" />
+									</label><br /><br />
+									<label>
+										<span class="smalltitle" style="font-size: 14px">Description:</span><br />
+										<textarea class="inputext3" style="width: 300px; height:100px" th:text="${m.description}" name="description">
+										
+										</textarea>
+									</label><br /><br />
+										<input type="submit" value="Envoyer les informations" class="mybutton" />
+									</form>
+								</div>
+							</td>
+						</tr>
+					</th:block>
+				</table>
+			</div>
+		</div>
+		<!-- RightBar -->
+		<div th:replace="rightbar::rightbar"></div>
+		<!-- Footer -->
+		<div style="clear:both"></div>
+		<div th:replace="footer::footer"></div>
+	</div>
+</body>
+</html>

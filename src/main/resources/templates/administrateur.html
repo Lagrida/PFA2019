@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Demande de stages</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/solid.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/fontawesome.css" />
+<link rel="stylesheet" th:href="@{/styles/default.css}" />
+</head>
+<body>
+	<div class="containner">
+	<!-- Header -->
+	<div th:replace="header::header"></div>
+	<!-- Body -->
+		<div class="bodyMain" style="max-width: 750px; margin-top: 25px; float: left; margin-left: 50px">
+			<h1 class="headH1" th:inline="text">
+				<i class="fas fa-user" style="color:#5F9EA0"></i> [[${admin.username}]]
+			</h1>
+			<div class="well" style="font-size: 16px; border-color: #89DA70; background-color:#E7F8E1 ">
+				Username : <b><span th:text="${admin.username}"></span></b><br />
+				Nom : <b><span th:text="${admin.nom}"></span></b><br />
+				Prenom : <b><span th:text="${admin.prenom}"></span></b><br />
+				Description : <b><span th:text="${admin.description}"></span></b><br />
+				
+			</div>
+		</div>
+		<!-- RightBar -->
+		<div th:replace="rightbar::rightbar"></div>
+	</div>
+	<div style="clear:both"></div>
+	<!-- Footer -->
+	<div th:replace="footer::footer"></div>
+	
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<title>Demande de Stage</title>
+</head>
+<body>
+	<h1 style="color: #C00000">Hello World : First Example.....+++</h1>
+	<p th:each="y:${myList}"
+		th:text="${'id : '+y.id + ', title : ' + y.title +', désignation:' + y.designation}"></p>
+	Arréte!
+	<br />
+	
+	<div th:fragment="content2">
+		<i>Footer</i>
+	</div>
+</body>
+</html>

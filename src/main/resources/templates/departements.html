@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Demande de stages</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/solid.css" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/fontawesome.css" />
+<link rel="stylesheet" th:href="@{/styles/default.css}" />
+ <script th:src="@{/scripts/jquery-3.3.1.min.js}"></script>
+ <script th:src="@{/scripts/confirmations.js}"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+	$(".msgsucces").animate({width: '96%'}, "slow");
+	$(".inputError").click(function(){
+		$(this).removeClass("inputError");
+	});
+    $("#newDepartement").click(function(){
+        $("#departementForm").fadeToggle(500);
+    });
+});
+    function displayBlock(id){
+        $(document).ready(function(){
+        		$("#"+id).slideToggle(500);
+        	});
+        }
+</script>
+	<div class="containner">
+		<!-- Header -->
+		<div th:replace="header::header"></div>
+		<!-- Adminstration Body -->
+		<!-- Body -->
+		<div class="bodyMain" style="max-width: 900px; margin-top: 25px; float: left; margin-left: 50px">
+			<h1 class="headH1"><i class="fas fa-building" style="color:#5F9EA0"></i> Configuration des départements</h1>
+			<div style="padding: 10px; margin: 0 auto; margin-top: 20px">
+				<div class="displayNone" th:text="${msgSucces}" th:classappend="${msgSuccesClass}"></div>
+				<a href="javascript:void(0);" id="newDepartement"><img th:src="@{/images/arrow_right.gif}" /> Ajouter un département</a>
+				<div class="textform displayNone" style="padding: 15px" id="departementForm" th:classappend="${displayBlockClass}">
+					<form th:action="@{departements?type=insert}" method="post">
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Titre Département:</span><br />
+							<input type="text" class="inputext3" th:value="${departement.titre}" name="titre" th:classappend="${inputError}" />
+						</label><br /><span class="msgError" th:errors="${departement.titre}"></span><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Description:</span><br />
+							<input type="text" class="inputext3" th:value="${departement.description}" name="description" />
+						</label><br /><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">Nombre de places pour le stage:</span><br />
+							<input type="text" class="inputext3" th:value="${departement.nbrPlaces}" name="nbrPlaces" />
+						</label><br /><br />
+						<label>
+							<span class="smalltitle" style="font-size: 14px">L'administrateur:</span><br />
+							<select class="inputext3" name="admin.id">
+								<option><i>choisir un admin</i></option>
+								<option th:each="u:${myUserList}" th:value="${u.id}" th:text="${u.username}"></option>
+							</select><br /><br />
+						<input type="submit" value="Envoyer les informations" class="mybutton" />
+					</form>
+				</div><br />
+				<table class="tables" style="padding: 0px; border-width: 1px; border-spacing: 0px; width: 100%; text-align:center">
+					<tr style="background: #C3C3C3">
+						<th>Titre</th>
+						<th><nobr>Admin</nobr></th>
+						<th>Description</th>
+						<th><nobr>Nombre de Places</nobr></th>
+						
+						<th style="width: 180px">Opérations</th>
+					</tr>
+					<th:block th:each="d, rowStat:${myList}">
+						<tr th:style="${rowStat.even} ? 'background: #F0F0F0;' : 'background: #ffffff;'">
+							<td><nobr th:text="${d.titre}"></nobr></td>
+							<td><a th:href="@{'/Responsable/'+${d.admin.id}}" th:text="${d.admin.username}"></a></td>
+							<td th:text="${d.description}" style="font-style: italic;"></td>
+							<td th:text="${d.nbrPlaces}"></td>
+							<td>
+								<button th:onclick="'displayBlock('+${d.id}+');'" class="mybutton" style="background:#2E8B57"><i class="fas fa-edit"></i> edit</button> 
+								<button th:onclick="'deleteDepartement('+${d.id}+');'" class="mybutton" style="background:#B22222"><i class="fas fa-trash-alt"></i> supprimer</button> 
+							</td>
+						</tr>
+						<tr>
+							<td colSpan="5" style="text-align: left; padding: 0px; border-bottom: 0px">
+								<div class="textform displayNone" th:id="${d.id}">
+									<form th:action="@{departements?type=modify}" method="post">
+									<input type="hidden" class="inputext3" th:value="${d.id}" name="id" />
+										<label>
+											<span class="smalltitle" style="font-size: 14px">Titre Département:</span><br />
+											<input type="text" class="inputext3" th:value="${d.titre}" name="titre" />
+										</label><br /><br />
+										<label>
+											<span class="smalltitle" style="font-size: 14px">Description:</span><br />
+											<input type="text" class="inputext3" th:value="${d.description}" name="description" />
+										</label><br /><br />
+										<label>
+											<span class="smalltitle" style="font-size: 14px">Nombre de places pour le stage:</span><br />
+											<input type="text" class="inputext3" th:value="${d.nbrPlaces}" name="nbrPlaces" />
+										</label><br /><br />
+										<label>
+											<span class="smalltitle" style="font-size: 14px">L'administrateur:</span><br />
+											<select class="inputext3" name="admin.id">
+												<option>choisir un admin</option>
+												<option th:each="u:${myUserList}" th:value="${u.id}" th:selected="${u.id} == ${d.admin.id}" th:text="${u.username}"></option>
+											</select>
+										</label><br /><br />
+										<input type="submit" value="Envoyer les informations" class="mybutton" />
+									</form>
+								</div>
+							</td>
+						</tr>
+					</th:block>
+				</table>
+			</div>
+		</div>
+		<!-- RightBar -->
+		<div th:replace="rightbar::rightbar"></div>
+		<!-- Footer -->
+		<div style="clear:both"></div>
+		<div th:replace="footer::footer"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<title>Demande de Stage</title>
+</head>
+<body>
+	<div th:fragment="header">
+		<div class="header">
+			<div style="padding: 10px 25px 0px 25px">
+				<a th:href="@{/}" title="Demande de stages"><img
+					th:src="@{/images/logo.png}" alt="Demande de stages" /></a>
+			</div>
+		</div>
+		<div class='cssmenu'>
+			<ul>
+				<li class='last'><a th:href='@{/}'><span><i
+							class="fa fa-home fa-fw"></i> Accueil</span></a></li>
+				<li class='last'><a th:href='@{/demande}'><span><i
+							class="fas fa-briefcase"></i> Demande de stage</span></a></li>
+				<li class='last'><a th:href='@{/admin}'><span><i class="fas fa-user-lock"></i> Administration</span></a></li>
+				<li class='last'><a th:href='@{/responsable}'><span><i class="fas fa-user-lock"></i> Responsable</span></a></li>
+				<li class='last'><a th:href='@{/stagiaire}'><span><i class="fas fa-user-lock"></i> Stagiaire</span></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

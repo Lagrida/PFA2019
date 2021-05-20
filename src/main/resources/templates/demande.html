@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Demande de stages</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/solid.css" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.1/css/fontawesome.css" />
+<link rel="stylesheet" th:href="@{styles/default.css}" />
+</head>
+<body>
+	<div class="containner">
+		<!-- Header -->
+		<div th:replace="header::header"></div>
+		<!-- Adminstration Body -->
+		<!-- Body -->
+		<div class="bodyMain" style="max-width: 750px; margin-top: 25px; float: left; margin-left: 50px">
+		<h1 class="headH1"><i class="fas fa-briefcase" style="color:#5F9EA0"></i> Demande de stage:</h1>
+			<div class="well">
+				Pour demander un stage dans notre entreprise, merci de remplire le formulaire suivant afin de le traiter par nos directeurs de départements:
+			</div>
+			<div class="textform" style="">Informations de l'étudiant:<br /><span class="textdesc"><i>Tous les champs sont obligatoires.</i></span></div><br />
+			<form th:action="@{/demandeEnvoi}" method="post" enctype="multipart/form-data">
+				<div style="margin-left: 20px">
+					<label>
+						<span class="smalltitle">Votre nom:</span><br />
+						<input type="text" class="inputext" name="nom" />
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Votre Prenom:</span><br />
+						<input type="text" class="inputext" name="prenom" />
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Votre Email:</span><br />
+						<input type="text" class="inputext" name="email" />
+					</label><br /><br />
+					<span class="smalltitle">Votre sexe : </span>&nbsp;&nbsp; <label><input value="0" type="radio" name="sexe" checked="checked"> <span class="textdesc">homme</span></label> 
+					<label><input value="0" type="radio" name="sexe"> <span class="textdesc">Femme</span></label><br /><br />
+					<label>
+						<span class="smalltitle">Votre Telephone:</span><br />
+						<input type="text" class="inputext" name="telephone" />
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Votre Etablissement:</span><br />
+						<input type="text" class="inputext" name="etablissement" />
+					</label><br /><br />
+				</div>
+				<div class="textform" style="">Informations sur le stage:<br /><span class="textdesc"><i>Tous les champs sont obligatoires.</i></span></div><br />
+				<div style="margin-left: 20px">
+					<label>
+						<span class="smalltitle">Département :</span><br />
+						<select class="inputext" name="departement">
+							<option th:each="d:${departements}" th:value="${d.id}" th:text="${d.titre}"></option>
+						</select>
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Type de stage :</span><br />
+						<select class="inputext" name="typeStage">
+							<option th:each="t:${typestages}" th:value="${t.id}" th:text="${t.titre}"></option>
+						</select>
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Durée de stage:</span><br />
+						<input type="text" class="inputext" name="duree" />
+					</label><br /><br />
+					<label>
+						<span class="smalltitle">Date de debut:</span><br />
+						<input type="date" class="inputext" name="date_debut" />
+					</label><br /><br />
+				</div>
+				<div class="textform" style="">Votre CV:<br /><span class="textdesc"><i>Merci d'inclure votre CV.</i></span></div><br />
+				<div style="margin-left: 20px">
+					<input class="file" type="file" name="file" data-number="1" style="" size="60" />
+				</div><br />
+				<div style="float: right">
+					<input type="submit" value="Envoyer les informations" class="submit" />
+				</div>
+			</form>
+			<div style="clear:both"></div><br />
+		</div>
+		<!-- RightBar -->
+		<div th:replace="rightbar::rightbar"></div>
+		<!-- Footer -->
+		<div style="clear:both"></div>
+		<div th:replace="footer::footer"></div>
+	</div>
+</body>
+</html>

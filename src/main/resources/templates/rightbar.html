@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<title>Demande de Stage</title>
+</head>
+<body>
+	<div style="max-width: 352px; float: left;  margin-top: 25px; padding-top: 5px; margin-bottom: 8px; margin-left: 20px;" th:fragment="rightbar">
+	<img th:src="@{/images/emsi.png}" />
+		<div class="rightb" style="margin-top: 5px">
+			<div class="smallhead">
+				Bienvenue: 
+				<span th:if="${#httpServletRequest.remoteUser == null}" th:inline="text" style="color:blue"> visiteur</span>
+				<a th:if="${#httpServletRequest.remoteUser != null}" th:href="@{'/Responsable/'+${userConnected.id}}" th:text="${userConnected.username}" style="color:blue; font-size: 16px"></a>
+			</div>
+			<th:block th:if="${userConnected.id > 0}">
+				<th:block th:if="${isStagiaire} == false">
+					<img th:src="@{/images/arrow_right.gif}" /> <a class="link" th:href="@{/responsable/gestionDemandes}" th:text="${'Demandes de stage non traités : ('+demandesCount+')'}"></a><br />
+				</th:block>
+				<br /><img th:src="@{/images/arrow_right.gif}" /> <a class="link" th:href="@{/uploadFiles}">Centre de fichiers</a><br />
+				<br /><img th:src="@{/images/arrow_right.gif}" /> <a class="link" th:href="@{/logout}" style="color:#C00000">Déconnexion</a><br />
+			</th:block>
+		</div>
+	</div>
+</body>
+</html>
